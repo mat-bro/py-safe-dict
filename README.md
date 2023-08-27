@@ -54,19 +54,48 @@ What happens if you try to get *'extra'*:
 my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 ```
 
-With SafeDict, oyu can easily access attribute with a cool syntax!
+With SafeDict, you can easily access attributes with a cool syntax!
+
+## Usage
+
+HOw to use it:
+
+1. wrap your dict with Safedict:
+```python
+my_safe_dict = SafeDict(**my_dict)
+```
+
+2. Map the path with the ```>>``` operator, using the key as string or index as list of int:
+```python
+my_safe_dict >> 'foo' >> ...
+```
+
+3. The last key must be mapped with ```>=```:
+```python
+... >= 'category' 
+```
+
+### **NOTE**
+You can choose to end with the operator ```>>```. In this case, you will have:
+- A SafeDict type if the attribute is a sub-instance of a ```dict``` 
+- AnSafeSequence type if the attribute is a sub-instance of ```list``` or ```tuple```
+- A SafeNone type if the attribute is None or if the declared path does not point to any attribute
+
 
 ## Examples
 
 ```python
 # Simple attribute access
-value = SafeDict(**test_dict_base) >> 'foo' >> 'bar'
+value = SafeDict(**test_dict_base) >> 'foo' >= 'fizz' # -> []
 
 # Attribute access with sequences
-value = SafeDict(**test_dict) >> 'foo' >> [0] >> 'info'
+value = SafeDict(**test_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
 
 # Attribute access with None objects
+value = SafeDict(**test_dict) >> 'bar' >> [0] >= 'info' # None
 
+# Attribute access with None objects
+value = SafeDict(**test_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # None
 ```
 
 
