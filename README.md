@@ -76,7 +76,7 @@ my_safe_dict >> 'foo' >> ...
 ```
 
 ### **NOTE**
-You can choose to end with the operator ```>>```. In this case, you will have:
+You can choose to end up with the operator ```>>```. In this case, you will have:
 - A SafeDict type if the attribute is a sub-instance of a ```dict``` 
 - AnSafeSequence type if the attribute is a sub-instance of ```list``` or ```tuple```
 - A SafeNone type if the attribute is None or if the declared path does not point to any attribute
@@ -94,7 +94,7 @@ value = SafeDict(**test_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO',
 # Attribute access with None objects
 value = SafeDict(**test_dict) >> 'bar' >> [0] >= 'info' # None
 
-# Attribute access with None objects
+# Attribute access with bad path
 value = SafeDict(**test_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # None
 ```
 
