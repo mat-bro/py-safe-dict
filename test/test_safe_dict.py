@@ -1,5 +1,6 @@
 import pytest
 from src import SafeDict, SafeSequence, SafeNone
+from collections.abc import Sequence
 
 
 def test_get_attribute(test_dict_base):
@@ -70,3 +71,14 @@ def test_manage_none_results(test_dict):
 
     assert isinstance(value, SafeNone), 'The object must be a SafeNone instance!'
     assert value2 is None, 'Bad results'
+
+
+
+def test_get_complex_multi_index_attribute(test_dict, info):
+    value = SafeDict(**test_dict) >> 'foo' >> [0, 1] >= 'info'
+    value3 = SafeDict(**test_dict) >> 'foo' >> [] >= 'info'
+
+    assert isinstance(value, tuple), f'The object must be a Sequence instance! Given: {type(value)}'
+    assert value == (info, info,), 'Bad results'
+    assert isinstance(value, tuple), f'The object must be a Sequence instance! Given: {type(value)}'
+    assert value3 == (info, info, info,), 'Bad results'

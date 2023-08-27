@@ -1,8 +1,11 @@
-# py-safe-dict
+# **py-safe-dict**
 
-Safedict was created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with access errors.
+This project was created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with access errors.
 
-## Motivations:
+</br>
+</br>
+
+# Motivations:
 Suppose you have a nested dict like this:
 
 ```python
@@ -56,11 +59,15 @@ my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 
 With SafeDict, you can easily access attributes with a cool syntax!
 
-## Usage
+</br>
+</br>
 
-HOw to use it:
 
-1. wrap your dict with Safedict:
+# Usage
+
+How to use it:
+
+1. wrap your ```dict``` with Safedict:
 ```python
 my_safe_dict = SafeDict(**my_dict)
 ```
@@ -77,12 +84,15 @@ my_safe_dict >> 'foo' >> ...
 
 ### **NOTE**
 You can choose to end up with the operator ```>>```. In this case, you will have:
-- A SafeDict type if the attribute is a sub-instance of a ```dict``` 
-- AnSafeSequence type if the attribute is a sub-instance of ```list``` or ```tuple```
-- A SafeNone type if the attribute is None or if the declared path does not point to any attribute
+- A ```SafeDict``` type if the attribute is a sub-instance of a ```dict``` 
+- A ```SafeSequence``` type if the attribute is a sub-instance of ```list``` or ```tuple```
+- A ```SafeNone``` type if the attribute is None or if the declared path does not point to any attribute
+
+</br>
+</br>
 
 
-## Examples
+# Examples
 
 ```python
 # Simple attribute access
@@ -97,9 +107,17 @@ value = SafeDict(**test_dict) >> 'bar' >> [0] >= 'info' # None
 # Attribute access with bad path
 value = SafeDict(**test_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # None
 ```
+</br>
+</br>
 
+
+# Cotributing
+Have you find a bug, typo or just want to contribute? Feel free to open an issue!
+
+</br>
+</br>
 
 
 # Acknowledgements
 
-thanks to [Airscript](https://github.com/airscripts) for the inspiration of this project!
+Thanks to [Airscript](https://github.com/airscripts) for the inspiration of this project!
