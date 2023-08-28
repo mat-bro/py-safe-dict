@@ -1,7 +1,7 @@
 # **py-safe-dict**
 ### Version: 0.1.0
 
-This project was created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with access errors.
+*py-safe-dict* is a python project created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with checks and errors.
 
 </br>
 </br>
@@ -47,18 +47,18 @@ Suppose you have a nested dict like this:
 ```
 
 
-If you want to get nested attributes, you should probably use:
+Generally, if you want to get nested attributes you should probably use:
 ```python
 my_dict['foo'][0]['info']['category'] # -> FOO
 ```
 
-What happens if you try to get *'extra'*:
+... but if you try to get *'extra'* key, which is not in the ```dict```:
 
 ```python
 my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 ```
 
-With SafeDict, you can easily access attributes with a cool syntax!
+With ```SafeDict```, you can easily access attributes with a cool syntax!
 
 </br>
 </br>
@@ -68,14 +68,14 @@ With SafeDict, you can easily access attributes with a cool syntax!
 
 How to use it:
 
-1. wrap your ```dict``` with Safedict:
+1. wrap your ```dict``` with ```Safedict```:
 ```python
 my_safe_dict = SafeDict(**my_dict)
 ```
 
-2. Map the path with the ```>>``` operator, using the key as string or index as list of int:
+2. Map the path with the ```>>``` operator, using the key as ```string``` or index as ```list``` of ```int```:
 ```python
-my_safe_dict >> 'foo' >> ...
+my_safe_dict >> 'foo' >> [0] >> ... 
 ```
 
 3. The last key must be mapped with ```>=```:
@@ -111,11 +111,17 @@ value = SafeDict(**my_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # -> None
 ```
 
 </br>
+
 You can also deal with ```sequences``` of ```dict```:
+
 </br>
 
 ```python
-my_list = [{'info': {'name': 'FOO'}}, {'info': {'name': 'BAR'}}, {'info': {'name': 'FIZZ'}}]
+my_list = [
+            {'info': {'name': 'FOO'}}, 
+            {'info': {'name': 'BAR'}}, 
+            {'info': {'name': 'FIZZ'}}
+          ]
 
 value = SafeSequence(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
 
@@ -126,7 +132,7 @@ value = SafeSequence(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
 
 
 # Contributing
-Have you find a bug, typo or just want to contribute? Feel free to open an issue!
+Have you find a bug, typo or just want to contribute? Feel free to open an [issue](https://github.com/mat-bro/py-safe-dict/issues) or start a [discussion](https://github.com/mat-bro/py-safe-dict/discussions)!
 
 </br>
 </br>
