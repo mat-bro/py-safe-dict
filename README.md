@@ -1,4 +1,5 @@
 # **py-safe-dict**
+### Version: 0.1.0
 
 This project was created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with access errors.
 
@@ -96,22 +97,35 @@ You can choose to end up with the operator ```>>```. In this case, you will have
 
 ```python
 # Simple attribute access
-value = SafeDict(**test_dict_base) >> 'foo' >= 'fizz' # -> []
+value = SafeDict(**my_dict) >> 'foo' >= 'fizz' # -> []
 
 # Attribute access with sequences
-value = SafeDict(**test_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
+value = SafeDict(**my_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
 
 # Attribute access with None objects
-value = SafeDict(**test_dict) >> 'bar' >> [0] >= 'info' # None
+value = SafeDict(**my_dict) >> 'bar' >> [0] >= 'info' # -> None
 
 # Attribute access with bad path
-value = SafeDict(**test_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # None
+value = SafeDict(**my_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # -> None
+
 ```
+
+</br>
+You can also deal with ```sequences``` of ```dict```:
+</br>
+
+```python
+my_list = [{'info': {'name': 'FOO'}}, {'info': {'name': 'BAR'}}, {'info': {'name': 'FIZZ'}}]
+
+value = SafeSequence(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
+
+```
+
 </br>
 </br>
 
 
-# Cotributing
+# Contributing
 Have you find a bug, typo or just want to contribute? Feel free to open an issue!
 
 </br>

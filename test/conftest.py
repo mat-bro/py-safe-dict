@@ -47,3 +47,8 @@ def test_dict(info):
 
         'fizz': []
     }
+
+
+@pytest.fixture
+def test_list_base():
+    return [{'info': {'name': 'FOO'}}, {'info': {'name': 'BAR'}}, {'info': {'name': 'FIZZ'}}]

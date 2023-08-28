@@ -3,7 +3,7 @@ from src import SafeDict, SafeSequence, SafeNone
 from collections.abc import Sequence
 
 
-def test_get_attribute(test_dict_base):
+def test_get_simple_attribute(test_dict_base):
     value = SafeDict(**test_dict_base) >> 'foo' >> 'bar'
     value2 = SafeDict(**test_dict_base) >> 'foo' >= 'bar'
 
