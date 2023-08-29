@@ -1,5 +1,5 @@
 import pytest
-from src import SafeDict, SafeSequence, SafeNone
+from ..src import SafeDict, SafeSequence, SafeNone
 from collections.abc import Sequence
 
 

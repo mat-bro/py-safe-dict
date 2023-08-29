@@ -1,5 +1,6 @@
 from __future__ import annotations
 from collections.abc import Sequence
+from abc import ABC, abstractmethod
 from typing import Any
 
 # TODO: extend for all Mapping and Sequence
@@ -15,7 +16,20 @@ def _get_instance(value):
     return value
 
 
-class SafeDict(dict):
+class SafeObject(ABC):
+
+    @abstractmethod
+    def __rshift__(self):
+        pass
+
+
+    @abstractmethod
+    def __ge__(self):
+        pass
+    
+
+
+class SafeDict(dict, SafeObject):
     """Class for safe key access"""
 
     def __rshift__(self, key: str) -> SafeDict | Any:
@@ -28,7 +42,7 @@ class SafeDict(dict):
     
 
 
-class SafeSequence(tuple):
+class SafeSequence(tuple, SafeObject):
 
     def __rshift__(self, value: list[int]) -> SafeSequence | Any:
         seq_len = len(value)
@@ -52,13 +66,9 @@ class SafeSequence(tuple):
 
    
 
-class SafeMultiSequence(SafeSequence):    
+class SafeMultiSequence(SafeSequence, SafeObject):    
     def __rshift__(self, value: str | list[int]) -> SafeSequence | Any:
         if isinstance(value, str):
-            for val in self:
-                print('VAL: ', val)
-                print('VALUE: ', value)
-                print('ATTR: ', val.get(value) )
             return SafeMultiSequence(val.get(value) for val in self)
         
     
@@ -67,7 +77,7 @@ class SafeMultiSequence(SafeSequence):
             return tuple(val.get(value) for val in self)
 
 
-class SafeNone:
+class SafeNone(SafeObject):
     __slots__ = ()
 
     def __rshift__(self, _: str | list[int]) -> SafeNone | None:

@@ -1,5 +1,5 @@
 # **py-safe-dict**
-### Version: 0.1.0
+### Version: 0.2.0
 
 *py-safe-dict* is a python project created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with checks and errors.
 
@@ -58,7 +58,7 @@ my_dict['foo'][0]['info']['category'] # -> FOO
 my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 ```
 
-With ```SafeDict```, you can easily access attributes with a cool syntax!
+With ```py-safe-dict```, you can easily access attributes with a cool syntax!
 
 </br>
 </br>
@@ -68,9 +68,9 @@ With ```SafeDict```, you can easily access attributes with a cool syntax!
 
 How to use it:
 
-1. wrap your ```dict``` with ```Safedict```:
+1. wrap your ```dict``` with ```safe```:
 ```python
-my_safe_dict = SafeDict(**my_dict)
+my_safe_dict = safe(my_dict)
 ```
 
 2. Map the path with the ```>>``` operator, using the key as ```string``` or index as ```list``` of ```int```:
@@ -97,16 +97,16 @@ You can choose to end up with the operator ```>>```. In this case, you will have
 
 ```python
 # Simple attribute access
-value = SafeDict(**my_dict) >> 'foo' >= 'fizz' # -> []
+value = safe(my_dict) >> 'foo' >= 'fizz' # -> []
 
 # Attribute access with sequences
-value = SafeDict(**my_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
+value = safe(my_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
 
 # Attribute access with None objects
-value = SafeDict(**my_dict) >> 'bar' >> [0] >= 'info' # -> None
+value = safe(my_dict) >> 'bar' >> [0] >= 'info' # -> None
 
 # Attribute access with bad path
-value = SafeDict(**my_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # -> None
+value = safe(my_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # -> None
 
 ```
 
@@ -123,9 +123,19 @@ my_list = [
             {'info': {'name': 'FIZZ'}}
           ]
 
-value = SafeSequence(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
+value = safe(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
 
 ```
+
+**NEW in 0.2.0**
+
+Now, you can deal with multiple index:
+
+```python
+value = safe(test_dict) >> 'foo' >> [0, 1] >= 'info'
+
+```
+
 
 </br>
 </br>

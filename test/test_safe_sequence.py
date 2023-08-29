@@ -1,5 +1,4 @@
-import pytest
-from src.classes import SafeSequence
+from ..src import SafeSequence
 
 
 def test_get_simple_attribute(test_list_base):
