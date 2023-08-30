@@ -1,8 +1,12 @@
-# py-safe-dict
+# **py-safe-dict**
+### Version: 0.2.0
 
-Safedict was created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with access errors.
+*py-safe-dict* is a python project created with the intention of helping developers to easily and securely access dictionary attributes without having to deal with checks and errors.
 
-## Motivations:
+</br>
+</br>
+
+# Motivations:
 Suppose you have a nested dict like this:
 
 ```python
@@ -43,31 +47,47 @@ Suppose you have a nested dict like this:
 ```
 
 
-If you want to get nested attributes, you should probably use:
+Generally, if you want to get nested attributes you should probably use:
 ```python
 my_dict['foo'][0]['info']['category'] # -> FOO
 ```
 
-What happens if you try to get *'extra'*:
+... but if you try to get *'extra'* key, which is not in the ```dict```:
 
 ```python
 my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 ```
 
-With SafeDict, you can easily access attributes with a cool syntax!
+</br>
 
-## Usage
+Furthermore, if you want multiple value at the same attribute position:
 
-HOw to use it:
-
-1. wrap your dict with Safedict:
 ```python
-my_safe_dict = SafeDict(**my_dict)
+value = []
+
+for i in range(2):
+    value.append(my_dict['foo'][i]['info']['extra']) # -> KeyError: 'extra'
 ```
 
-2. Map the path with the ```>>``` operator, using the key as string or index as list of int:
+
+With ```py-safe-dict```, you can easily access attributes with a simple and cool syntax!
+
+</br>
+</br>
+
+
+# Usage
+
+How to use it:
+
+1. wrap your ```dict``` with ```safe```:
 ```python
-my_safe_dict >> 'foo' >> ...
+my_safe_dict = safe(my_dict)
+```
+
+2. Map the path with the ```>>``` operator, using the key as ```string``` or index as ```list``` of ```int```:
+```python
+my_safe_dict >> 'foo' >> [0] >> ... 
 ```
 
 3. The last key must be mapped with ```>=```:
@@ -76,30 +96,82 @@ my_safe_dict >> 'foo' >> ...
 ```
 
 ### **NOTE**
-You can choose to end with the operator ```>>```. In this case, you will have:
-- A SafeDict type if the attribute is a sub-instance of a ```dict``` 
-- AnSafeSequence type if the attribute is a sub-instance of ```list``` or ```tuple```
-- A SafeNone type if the attribute is None or if the declared path does not point to any attribute
+You can choose to end up with the operator ```>>```. In this case, you will have:
+- A ```SafeDict``` type if the attribute is a sub-instance of a ```dict``` 
+- A ```SafeSequence``` type if the attribute is a sub-instance of ```list``` or ```tuple```
+- A ```SafeNone``` type if the attribute is None or if the declared path does not point to any attribute
+
+</br>
+</br>
 
 
-## Examples
+# Examples
 
 ```python
+from . import safe
+
 # Simple attribute access
-value = SafeDict(**test_dict_base) >> 'foo' >= 'fizz' # -> []
+value = safe(my_dict) >> 'foo' >= 'fizz' # -> []
 
 # Attribute access with sequences
-value = SafeDict(**test_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
+value = safe(my_dict) >> 'foo' >> [0] >= 'info' # -> {'category': 'FOO', 'description': 'This is FOO'}
 
 # Attribute access with None objects
-value = SafeDict(**test_dict) >> 'bar' >> [0] >= 'info' # None
+value = safe(my_dict) >> 'bar' >> [0] >= 'info' # -> None
 
-# Attribute access with None objects
-value = SafeDict(**test_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # None
+# Attribute access with bad path
+value = safe(my_dict) >> 'bad' >> 'path' >> 'to' >= 'attr' # -> None
+
 ```
 
+</br>
+
+You can also deal with ```sequences``` of ```dict```:
+
+</br>
+
+```python
+my_list = [
+            {'info': {'name': 'FOO'}}, 
+            {'info': {'name': 'BAR'}}, 
+            {'info': {'name': 'FIZZ'}}
+          ]
+
+value = safe(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
+
+```
+
+</br>
+
+## NEW in 0.2.0
+
+Now, you can deal with multiple index at the same time:
+
+</br>
+
+```python
+value = safe(test_dict) >> 'foo' >> [0, 1] >= 'info' # -> ('FOO', 'BAR',)
+
+value = safe(test_dict) >> 'foo' >> [] >= 'info' # -> ('FOO', 'BAR', 'FIZZ')
+
+```
+
+</br>
+
+As you can see, you can access multiple attributes at the same time with a list of int indicating the indexes. You can also use an empty list if you want all the indexes of that specific sequence!
+
+
+</br>
+</br>
+
+
+# Contributing
+Have you find a bug, typo or just want to contribute? Feel free to open an [issue](https://github.com/mat-bro/py-safe-dict/issues) or start a [discussion](https://github.com/mat-bro/py-safe-dict/discussions)!
+
+</br>
+</br>
 
 
 # Acknowledgements
 
-thanks to [Airscript](https://github.com/airscripts) for the inspiration of this project!
+Thanks to [Airscript](https://github.com/airscripts) for the inspiration of this project!
