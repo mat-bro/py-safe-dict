@@ -58,7 +58,19 @@ my_dict['foo'][0]['info']['category'] # -> FOO
 my_dict['foo'][0]['info']['extra'] # -> KeyError: 'extra'
 ```
 
-With ```py-safe-dict```, you can easily access attributes with a cool syntax!
+</br>
+
+Furthermore, if you want multiple value at the same attribute position:
+
+```python
+value = []
+
+for i in range(2):
+    value.append(my_dict['foo'][i]['info']['extra']) # -> KeyError: 'extra'
+```
+
+
+With ```py-safe-dict```, you can easily access attributes with a simple and cool syntax!
 
 </br>
 </br>
@@ -96,6 +108,8 @@ You can choose to end up with the operator ```>>```. In this case, you will have
 # Examples
 
 ```python
+from . import safe
+
 # Simple attribute access
 value = safe(my_dict) >> 'foo' >= 'fizz' # -> []
 
@@ -127,14 +141,24 @@ value = safe(my_list) >> [2] >> 'info' >= 'name' # -> 'FIZZ'
 
 ```
 
-**NEW in 0.2.0**
+</br>
 
-Now, you can deal with multiple index:
+## NEW in 0.2.0
+
+Now, you can deal with multiple index at the same time:
+
+</br>
 
 ```python
-value = safe(test_dict) >> 'foo' >> [0, 1] >= 'info'
+value = safe(test_dict) >> 'foo' >> [0, 1] >= 'info' # -> ('FOO', 'BAR',)
+
+value = safe(test_dict) >> 'foo' >> [] >= 'info' # -> ('FOO', 'BAR', 'FIZZ')
 
 ```
+
+</br>
+
+As you can see, you can access multiple attributes at the same time with a list of int indicating the indexes. You can also use an empty list if you want all the indexes of that specific sequence!
 
 
 </br>
